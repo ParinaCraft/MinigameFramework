@@ -1,0 +1,14 @@
+name: MinigameFramework
+version: 1.0-DEV
+description: Oh no, this might actually be easy!
+author: isokissa3
+website: https://joniaromaa.fi
+
+main: fi.joniaromaa.minigameframework.MinigamePlugin
+depend: [ParinaCoreLibrary]
+
+commands:
+   minigame:
+     description: Commands to manage the minigame plugin
+     aliases: [mg]
+     permission: minigame.command.use
