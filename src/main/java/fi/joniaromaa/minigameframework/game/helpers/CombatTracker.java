@@ -1,5 +1,6 @@
 package fi.joniaromaa.minigameframework.game.helpers;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -105,7 +106,7 @@ public class CombatTracker
 				}
 				case ENTITY_ATTACK:
 				{
-					stringBuilder.append("sai nen‰‰n");
+					stringBuilder.append("sai nen√§√§n");
 					break;
 				}
 				case PROJECTILE:
@@ -135,7 +136,7 @@ public class CombatTracker
 				}
 				case FIRE_TICK:
 				{
-					stringBuilder.append("ep‰onnistui juoksemaan tulta pakoon");
+					stringBuilder.append("ep√§onnistui juoksemaan tulta pakoon");
 					break;
 				}
 				case LAVA:
@@ -151,12 +152,12 @@ public class CombatTracker
 				case BLOCK_EXPLOSION:
 				case ENTITY_EXPLOSION:
 				{
-					stringBuilder.append("ymm‰rsi r‰j‰hdyksen voiman");
+					stringBuilder.append("ymm√§rsi r√§j√§hdyksen voiman");
 					break;
 				}
 				case LIGHTNING:
 				{
-					stringBuilder.append("kuoli tyylill‰");
+					stringBuilder.append("kuoli tyylill√§");
 					break;
 				}
 				case SUICIDE:
@@ -166,7 +167,7 @@ public class CombatTracker
 				}
 				case STARVATION:
 				{
-					stringBuilder.append("huomasi, ett‰ ravinto on t‰rke‰‰");
+					stringBuilder.append("huomasi, ett√§ ravinto on t√§rke√§√§");
 					break;
 				}
 				case POISON:
@@ -178,12 +179,12 @@ public class CombatTracker
 				}
 				case FALLING_BLOCK:
 				{
-					stringBuilder.append("ei huomannut v‰ist‰‰");
+					stringBuilder.append("ei huomannut v√§ist√§√§");
 					break;
 				}
 				case THORNS:
 				{
-					stringBuilder.append("silm‰ silm‰st‰, hammas hampaasta");
+					stringBuilder.append("silm√§ silm√§st√§, hammas hampaasta");
 					break;
 				}
 				case CUSTOM:
@@ -209,14 +210,20 @@ public class CombatTracker
 					{
 						stringBuilder.append(minigamePlayerDamager.getTeam().getChatColor())
 							.append(minigamePlayerDamager.getUser().getDisplayName())
-							.append(ChatColor.GRAY)
-							.append(" ansiosta!");
+							.append(ChatColor.GRAY);
 					}
 					else
 					{
-						stringBuilder.append(damagerPlayer.getName())
-							.append(" ansiosta!");
+						stringBuilder.append(damagerPlayer.getName());
 					}
+					
+					stringBuilder.append(" (")
+						.append(ChatColor.RED)
+						.append(new DecimalFormat("#0.00").format(damagerPlayer.getHealth()))
+						.append(" ‚ù§")
+						.append(ChatColor.GRAY)
+						.append(')')
+						.append(" ansiosta!");
 				}
 				else
 				{
