@@ -94,8 +94,8 @@ public abstract class AbstractMinigame<T extends AbstractMinigameTeam<S>, S exte
 			int weight = Integer.compare(o2.getUser().getWeight(), o1.getUser().getWeight());
 			if (weight == 0)
 			{
-				UserPreferedMinigameTeamDataStorage o1Prefered = o1.getUser().getDataStorage(UserPreferedMinigameTeamDataStorage.class);
-				UserPreferedMinigameTeamDataStorage o2Prefered = o1.getUser().getDataStorage(UserPreferedMinigameTeamDataStorage.class);
+				UserPreferedMinigameTeamDataStorage o1Prefered = o1.getUser().getDataStorage(UserPreferedMinigameTeamDataStorage.class).orElse(null);
+				UserPreferedMinigameTeamDataStorage o2Prefered = o1.getUser().getDataStorage(UserPreferedMinigameTeamDataStorage.class).orElse(null);
 				if (o1Prefered != null && o2Prefered == null)
 				{
 					return 1;
@@ -123,7 +123,7 @@ public abstract class AbstractMinigame<T extends AbstractMinigameTeam<S>, S exte
 			S player = this.createPlayer(unsortedUsers.remove(0));
 			T team = null;
 			
-			UserPreferedMinigameTeamDataStorage preferedTeam = player.getUser().getDataStorage(UserPreferedMinigameTeamDataStorage.class);
+			UserPreferedMinigameTeamDataStorage preferedTeam = player.getUser().getDataStorage(UserPreferedMinigameTeamDataStorage.class).orElse(null);
 			if (preferedTeam != null && preferedTeam.getTeam() != null)
 			{
 				team = teams.stream()
@@ -312,7 +312,7 @@ public abstract class AbstractMinigame<T extends AbstractMinigameTeam<S>, S exte
 
 		if (!this.privateGame)
 		{
-			ParinaCore.getApi().getStorageManager().getStorageModule(UserStorageModule.class).updateUserDataStorageMultiple(this.stats);
+			ParinaCore.getApi().getStorageManager().getStorageModule(UserStorageModule.class).ifPresent((s) -> s.updateUserDataStorageMultiple(this.stats));
 		}
 	}
 
@@ -322,10 +322,13 @@ public abstract class AbstractMinigame<T extends AbstractMinigameTeam<S>, S exte
 		{
 			Locale locale = Locale.forLanguageTag(p.spigot().getLocale().replaceAll( "_", "-"));
 			
-			User user = ParinaCore.getApi().getUserManager().getUser(p.getUniqueId());
+			User user = ParinaCore.getApi().getUserManager().getUser(p.getUniqueId()).orElse(null);
 			if (user != null)
 			{
-				locale = user.getLocale().orElse(null);
+				if (user.getLocale().isPresent())
+				{
+					locale = user.getLocale().get();
+				}
 			}
 			
 			p.sendMessage(ParinaCore.getApi().getLanguageManager().getTranslation(locale, area, key, params));

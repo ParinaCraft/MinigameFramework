@@ -18,7 +18,7 @@ public class BukkitUser
 	public BukkitUser(Player bukkitPlayer)
 	{
 		this.bukkitPlayer = bukkitPlayer;
-		this.user = ParinaCore.getApi().getUserManager().getUser(this.getBukkitPlayer().getUniqueId());
+		this.user = ParinaCore.getApi().getUserManager().getUser(this.getBukkitPlayer().getUniqueId()).orElse(null);
 	}
 	
 	public boolean isLoaded()

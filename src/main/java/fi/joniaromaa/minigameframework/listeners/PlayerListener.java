@@ -22,18 +22,16 @@ import fi.joniaromaa.minigameframework.game.AbstractMinigame;
 import fi.joniaromaa.minigameframework.game.AbstractPreMinigame;
 import fi.joniaromaa.minigameframework.user.dataset.UserPreferedMinigameTeamDataStorage;
 import fi.joniaromaa.parinacorelibrary.api.ParinaCore;
-import fi.joniaromaa.parinacorelibrary.api.user.User;
 
 public class PlayerListener implements Listener
 {
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onAsyncPlayerPreLoginEvent(AsyncPlayerPreLoginEvent event)
 	{
-		User user = ParinaCore.getApi().getUserManager().getUser(event.getUniqueId());
-		if (user != null)
+		ParinaCore.getApi().getUserManager().getUser(event.getUniqueId()).ifPresent((u) ->
 		{
-			user.removeDataStorage(UserPreferedMinigameTeamDataStorage.class);
-		}
+			u.removeDataStorage(UserPreferedMinigameTeamDataStorage.class);
+		});
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -105,12 +103,11 @@ public class PlayerListener implements Listener
 		Player player = event.getPlayer();
 		
 		MinigamePlugin.getPlugin().getGameManager().onPlayerQuit(player);
-		
-		User user = ParinaCore.getApi().getUserManager().getUser(player.getUniqueId());
-		if (user != null)
+
+		ParinaCore.getApi().getUserManager().getUser(player.getUniqueId()).ifPresent((u) ->
 		{
-			user.removeDataStorage(UserPreferedMinigameTeamDataStorage.class);
-		}
+			u.removeDataStorage(UserPreferedMinigameTeamDataStorage.class);
+		});
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
